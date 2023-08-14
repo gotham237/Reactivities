@@ -22,8 +22,8 @@ namespace API.Controllers
 
         [HttpGet("{id}")] //api/activities/efwefwefw
         public async Task<ActionResult<Activity>> GetActivity(Guid id)
-    {
-        return await _context.Activities.FindAsync(id);
+        {
+            return await _context.Activities.FindAsync(id);
+        }
     }
-}
 }
