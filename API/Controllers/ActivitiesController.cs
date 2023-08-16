@@ -8,6 +8,9 @@ namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
+        // API controller sends object to mediator, mediator has a handler that processes 
+        // business logic and then sends object back to API controller which return object
+        // to the client inside HTTP response
         [HttpGet] //api/activities
         public async Task<ActionResult<List<Activity>>> GetActivities()
         {
