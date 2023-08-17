@@ -37,7 +37,7 @@ const Activities = {
   delete: (id: string) => requests.del<void>(`/activities/${id}`)
 }
 
-// gives us access to Activities and list function
+// gives us access to Activities and functions
 const agent = {
   Activities
 }
