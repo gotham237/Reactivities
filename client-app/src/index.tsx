@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import 'semantic-ui-css/semantic.min.css';
+import 'react-calendar/dist/Calendar.css';
 import './app/layout/styles.css';
 import reportWebVitals from './reportWebVitals';
 import { StoreContext, store } from './stores/store';
@@ -13,7 +14,6 @@ root.render(
   <StoreContext.Provider value={store}> 
     <RouterProvider router={router} />
   </StoreContext.Provider>
-   
 );
 
 // If you want to start measuring performance in your app, pass a function
