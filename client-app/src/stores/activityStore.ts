@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { Activity } from "../app/models/activity";
 import agent from "../app/api/agent";
 import { v4 as uuid } from "uuid";
+import {format} from 'date-fns';
 
 export default class ActivityStore {
   //activities: Activity[] = [];
@@ -17,18 +18,18 @@ export default class ActivityStore {
 
   get activitiesByDate() {
     return Array.from(this.activityRegistry.values()).sort(
-      (a, b) => Date.parse(a.date) - Date.parse(b.date)
+      (a, b) => a.date!.getTime() - b.date!.getTime()
     );
   }
 
   get groupedActivities() {
-    //The reduce function will take an array of objects 
-    //(which we get from Object.entries) and reduce it to a single value - in this case the date string. 
-    //From there we use the date string as a 'key' 
+    //The reduce function will take an array of objects
+    //(which we get from Object.entries) and reduce it to a single value - in this case the date string.
+    //From there we use the date string as a 'key'
     //and then the values for this 'key' will be an array of activities that take place on that date.
     return Object.entries(
       this.activitiesByDate.reduce((activities, activity) => {
-        const date = activity.date;
+        const date = format(activity.date!, 'dd MMM yyyy');
         activities[date] = activities[date]
           ? [...activities[date], activity]
           : [activity];
@@ -75,8 +76,9 @@ export default class ActivityStore {
 
   private setActivity = (activity: Activity) => {
     // splits date string so it gives only date without time
-    activity.date = activity.date.split("T")[0];
+    //activity.date = activity.date.split("T")[0];
     //this.activities.push(activity); - for normal array not map
+    activity.date = new Date(activity.date!);
     this.activityRegistry.set(activity.id, activity);
   };
 
