@@ -3,6 +3,7 @@ import { Activity } from "../models/activity";
 import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 import { store } from "../../stores/store";
+import { User, UserFormValues } from "../models/user";
 
 // sleep function imitates longer time of loading a page
 const sleep = (delay: number) => {
@@ -12,6 +13,12 @@ const sleep = (delay: number) => {
 };
 
 axios.defaults.baseURL = "http://localhost:5000/api";
+
+axios.interceptors.request.use(config => {
+  const token = store.commonStore.token;
+  if (token && config.headers)config.headers.Authorization = `Bearer ${token}`;
+  return config;
+})
 
 axios.interceptors.response.use(
   async (response) => {
@@ -45,7 +52,7 @@ axios.interceptors.response.use(
         }
         break;
       case 401:
-        toast.error("anauthorised");
+        toast.error("unauthorised");
         break;
       case 403:
         toast.error("forbidden");
@@ -81,9 +88,16 @@ const Activities = {
   delete: (id: string) => requests.del<void>(`/activities/${id}`),
 };
 
+const Account = {
+  current: () => requests.get<User>('/account'),
+  login: (user: UserFormValues) => requests.post<User>('/account/login', user),
+  register: (user: UserFormValues) => requests.post<User>('/account/register', user)
+}
+
 // gives us access to Activities and functions
 const agent = {
   Activities,
+  Account
 };
 
 export default agent;
