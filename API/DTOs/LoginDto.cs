@@ -1,3 +1,4 @@
+//DTO - data transfer object - object that caries data between processes
 namespace API.DTOs
 {
     public class LoginDto
