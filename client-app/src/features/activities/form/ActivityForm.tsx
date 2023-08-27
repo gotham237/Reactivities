@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useStore } from "../../../stores/store";
 import { observer } from "mobx-react-lite";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Activity } from "../../../app/models/activity";
+import { ActivityFormValues } from "../../../app/models/activity";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { v4 as uuid } from "uuid";
-import { Formik, Form} from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import MyTextArea from "../../../app/common/form/MyTextArea";
@@ -19,22 +19,15 @@ export default observer(function ActivityForm() {
   const {
     createActivity,
     updateActivity,
-    loading,
     loadActivity,
     loadingInitial,
   } = activityStore;
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [activity, setActivity] = useState<Activity>({
-    id: "",
-    title: "",
-    category: "",
-    description: "",
-    date: null,
-    city: "",
-    venue: "",
-  });
+  const [activity, setActivity] = useState<ActivityFormValues>(
+    new ActivityFormValues()
+  );
 
   const validationSchema = Yup.object({
     title: Yup.string().required("The activity title is required"),
@@ -47,17 +40,23 @@ export default observer(function ActivityForm() {
 
   useEffect(() => {
     // ! turns off typescript
-    if (id) loadActivity(id).then((activity) => setActivity(activity!));
+    if (id)
+      loadActivity(id).then((activity) =>
+        setActivity(new ActivityFormValues(activity))
+      );
   }, [id, loadActivity]);
 
-  function handleFormSubmit(activity: Activity) {
+  function handleFormSubmit(activity: ActivityFormValues) {
     if (!activity.id) {
       activity.id = uuid();
-      createActivity(activity).then(() => navigate(`/activities/${activity.id}`))
+      createActivity(activity).then(() =>
+        navigate(`/activities/${activity.id}`)
+      );
     } else {
-      updateActivity(activity).then(() => navigate(`/activities/${activity.id}`))
+      updateActivity(activity).then(() =>
+        navigate(`/activities/${activity.id}`)
+      );
     }
-
   }
 
   // function handleInputChange(
@@ -71,7 +70,7 @@ export default observer(function ActivityForm() {
 
   return (
     <Segment clearing>
-      <Header content='Activity Details' sub color="teal" />
+      <Header content="Activity Details" sub color="teal" />
       <Formik
         validationSchema={validationSchema}
         enableReinitialize
@@ -92,14 +91,14 @@ export default observer(function ActivityForm() {
               name="date"
               showTimeSelect
               timeCaption="time"
-              dateFormat='MMMM d, yyyy h:mm aa'
+              dateFormat="MMMM d, yyyy h:mm aa"
             />
-            <Header content='Location Details' sub color="teal" />
+            <Header content="Location Details" sub color="teal" />
             <MyTextInput placeholder="City" name="city" />
             <MyTextInput placeholder="Venue" name="venue" />
             <Button
-            disabled={isSubmitting || !dirty || !isValid}
-              loading={loading}
+              disabled={isSubmitting || !dirty || !isValid}
+              loading={isSubmitting}
               floated="right"
               positive
               type="submit"

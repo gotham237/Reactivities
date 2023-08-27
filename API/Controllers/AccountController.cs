@@ -52,7 +52,7 @@ namespace API.Controllers
                 //returns error in this form:
                 /* "errors": {
                         "email": [
-                            "Email taken"
+                            "Username taken"
                         ]
                     }*/
             }
