@@ -108,7 +108,8 @@ const Profiles = {
     })
   },
   setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
-  deletePhoto: (id: string) => requests.del(`/photos/${id}`)
+  deletePhoto: (id: string) => requests.del(`/photos/${id}`),
+  editProfile: (profile: Partial<Profile>) => requests.put('/profiles', profile),
 };
 
 // gives us access to Activities and functions
