@@ -1,6 +1,6 @@
 import { Button, Header, Segment } from "semantic-ui-react";
 import { useEffect, useState } from "react";
-import { useStore } from "../../../stores/store";
+import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ActivityFormValues } from "../../../app/models/activity";
@@ -16,12 +16,8 @@ import MyDateInput from "../../../app/common/form/MyDateInput";
 
 export default observer(function ActivityForm() {
   const { activityStore } = useStore();
-  const {
-    createActivity,
-    updateActivity,
-    loadActivity,
-    loadingInitial,
-  } = activityStore;
+  const { createActivity, updateActivity, loadActivity, loadingInitial } =
+    activityStore;
   const { id } = useParams();
   const navigate = useNavigate();
 

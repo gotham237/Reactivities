@@ -29,7 +29,12 @@ namespace API.Extensions
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+                    //AllowCredentials is for signalR
+                    policy
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .WithOrigins("http://localhost:3000");
                 });
             });
 
@@ -42,6 +47,7 @@ namespace API.Extensions
             services.AddScoped<IUserAccessor, UserAccessor>();
             // Adding cloudinary(GetSection takes parameter from appsettings.json file)
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+            services.AddSignalR();
 
             return services;
         }

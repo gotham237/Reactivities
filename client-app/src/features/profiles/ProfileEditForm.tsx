@@ -4,7 +4,7 @@ import { Button } from "semantic-ui-react";
 import MyTextArea from "../../app/common/form/MyTextArea";
 import MyTextInput from "../../app/common/form/MyTextInput";
 import * as Yup from "yup";
-import { useStore } from "../../stores/store";
+import { useStore } from "../../app/stores/store";
 interface Props {
   setEditMode: (editMode: boolean) => void;
 }

@@ -31,7 +31,7 @@ namespace Infrastructure.Security
 
             //AsNoTracking resolves a bug because - we wanted to authorize
             // if the user is host of the activity or not and he changed the activity,
-            // it deleted attendees
+            // it deletes attendees
             var attendee = _dbContext.ActivityAttendees
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.AppUserId == userId && x.ActivityId == activityId)

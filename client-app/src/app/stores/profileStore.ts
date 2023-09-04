@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Photo, Profile } from "../app/models/profile";
-import agent from "../app/api/agent";
+import { Photo, Profile } from "../models/profile";
+import agent from "../api/agent";
 import { store } from "./store";
 
 export default class ProfileStore {
@@ -104,7 +104,7 @@ export default class ProfileStore {
           profile.displayName !== store.userStore.user?.displayName
         ) {
           store.userStore.setDisplayName(profile.displayName);
-          //we are setting the Profile with the existing profile and overwriting any changes to the 
+          //we are setting the Profile with the existing profile and overwriting any changes to the
           //profile from the partial profile we are passing in as a parameter
           this.profile = { ...this.profile, ...(profile as Profile) };
           this.loading = false;
@@ -112,7 +112,9 @@ export default class ProfileStore {
       });
     } catch (error) {
       console.log(error);
-      this.loading = false;
+      runInAction(() => {
+        this.loading = false;
+      });
     }
   };
 }

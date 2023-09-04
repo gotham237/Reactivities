@@ -1,14 +1,14 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { User, UserFormValues } from "../app/models/user";
-import agent from "../app/api/agent";
+import { User, UserFormValues } from "../models/user";
+import agent from "../api/agent";
 import { store } from "./store";
-import { router } from "../app/router/Routes";
+import { router } from "../router/Routes";
 
 export default class UserStore {
   user: User | null = null;
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
   }
 
   get isLoggedIn() {
@@ -22,13 +22,13 @@ export default class UserStore {
       store.commonStore.setToken(user.token);
       runInAction(() => {
         this.user = user;
-      })
-      router.navigate('/activities')
+      });
+      router.navigate("/activities");
       store.modalStore.closeModal();
     } catch (error) {
       throw error;
     }
-  }
+  };
 
   register = async (creds: UserFormValues) => {
     try {
@@ -36,35 +36,35 @@ export default class UserStore {
       store.commonStore.setToken(user.token);
       runInAction(() => {
         this.user = user;
-      })
-      router.navigate('/activities')
+      });
+      router.navigate("/activities");
       store.modalStore.closeModal();
     } catch (error) {
       throw error;
     }
-  }
+  };
 
   logout = () => {
     store.commonStore.setToken(null);
     //localStorage.removeItem('jwt');
     this.user = null;
-    router.navigate('/');
-  }
+    router.navigate("/");
+  };
 
   getUSer = async () => {
     try {
       const user = await agent.Account.current();
-      runInAction(() => this.user = user);
+      runInAction(() => (this.user = user));
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   setImage = (image: string) => {
     if (this.user) this.user.image = image;
-  }
+  };
 
   setDisplayName = (displayName: string) => {
     if (this.user) this.user.displayName = displayName;
-  }
+  };
 }

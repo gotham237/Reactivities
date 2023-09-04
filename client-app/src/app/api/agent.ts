@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { Activity, ActivityFormValues } from "../models/activity";
 import { toast } from "react-toastify";
 import { router } from "../router/Routes";
-import { store } from "../../stores/store";
+import { store } from "../stores/store";
 import { User, UserFormValues } from "../models/user";
 import { Photo, Profile } from "../models/profile";
 
@@ -102,14 +102,15 @@ const Profiles = {
   get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
   uploadPhoto: (file: Blob) => {
     let formData = new FormData();
-    formData.append('File', file);
-    return axios.post<Photo>('photos', formData, {
-      headers: {'Content-Type': 'multipart/form-data'}
-    })
+    formData.append("File", file);
+    return axios.post<Photo>("photos", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
   },
   setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
   deletePhoto: (id: string) => requests.del(`/photos/${id}`),
-  editProfile: (profile: Partial<Profile>) => requests.put('/profiles', profile),
+  editProfile: (profile: Partial<Profile>) =>
+    requests.put("/profiles", profile),
 };
 
 // gives us access to Activities and functions

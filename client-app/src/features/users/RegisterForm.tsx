@@ -1,7 +1,7 @@
 import { ErrorMessage, Form, Formik } from "formik";
 import MyTextInput from "../../app/common/form/MyTextInput";
 import { Button, Header } from "semantic-ui-react";
-import { useStore } from "../../stores/store";
+import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import * as Yup from "yup";
 import ValidationErrors from "../errors/ValidationErrors";
