@@ -13,7 +13,7 @@ export interface Activity {
   isGoing: boolean;
   isHost: boolean;
   host?: Profile;
-  attendees: Profile[]
+  attendees: Profile[];
 }
 
 export class Activity implements Activity {
@@ -25,12 +25,18 @@ export class Activity implements Activity {
 
 export class ActivityFormValues {
   id?: string = undefined;
-  title: string = '';
-  category: string = '';
-  description: string = '';
+  title: string = "";
+  category: string = "";
+  description: string = "";
   date: Date | null = null;
-  city: string = '';
-  venue: string = '';
+  city: string = "";
+  venue: string = "";
+  hostUsername: string = "";
+  isCancelled: boolean = false;
+  isGoing: boolean = false;
+  isHost: boolean = false;
+  host?: Profile;
+  attendees: Profile[] = [];
 
   constructor(activity?: ActivityFormValues) {
     if (activity) {
