@@ -18,8 +18,8 @@ export default class CommentStore {
   createHubConnection = (activityId: string) => {
     if (store.activityStore.selectedActivity) {
       this.hubConnection = new HubConnectionBuilder()
-        .withUrl("http://localhost:5000/chat?activityId=" + activityId, {
-          accessTokenFactory: () => store.userStore.user?.token!,
+        .withUrl(import.meta.env.VITE_CHAT_URL + "?activityId=" + activityId, {
+          accessTokenFactory: () => store.userStore.user?.token as string,
         })
         .withAutomaticReconnect()
         .configureLogging(LogLevel.Information)
@@ -35,7 +35,7 @@ export default class CommentStore {
         //we are updating observables so we need to use runInAction
         runInAction(() => {
           comments.forEach((comment) => {
-            comment.createdAt = new Date(comment.createdAt + 'Z');
+            comment.createdAt = new Date(comment.createdAt + "Z");
           });
           this.comments = comments;
         });
@@ -62,7 +62,7 @@ export default class CommentStore {
     this.stopHubConnection();
   };
 
-  addComment = async (values: any) => {
+  addComment = async (values: {body: string, activityId?: string}) => {
     values.activityId = store.activityStore.selectedActivity?.id;
     try {
       await this.hubConnection?.invoke("SendComment", values);

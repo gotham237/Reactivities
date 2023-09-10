@@ -15,7 +15,7 @@ const sleep = (delay: number) => {
   });
 };
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 axios.interceptors.request.use((config) => {
   const token = store.commonStore.token;
@@ -25,14 +25,14 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use(
   async (response) => {
-    await sleep(1000);
+    if (import.meta.env.DEV) await sleep(1000);
     const pagination = response.headers["pagination"];
     if (pagination) {
       response.data = new PaginatedResult(
         response.data,
         JSON.parse(pagination)
       );
-      return response as AxiosResponse<PaginatedResult<any>>;
+      return response as AxiosResponse<PaginatedResult<unknown>>;
     }
     return response;
   },
@@ -41,7 +41,10 @@ axios.interceptors.response.use(
     const { data, status, config } = error.response as AxiosResponse;
     switch (status) {
       case 400:
-        if (config.method === "get" && data.errors.hasOwnProperty("id")) {
+        if (
+          config.method === "get" &&
+          Object.prototype.hasOwnProperty.call(data.errors, "id")
+        ) {
           router.navigate("/not-found");
         }
         /* Pole 'City' nie może być puste.
@@ -84,9 +87,9 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
   get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-  post: <T>(url: string, body: {}) =>
+  post: <T>(url: string, body: object) =>
     axios.post<T>(url, body).then(responseBody),
-  put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
+  put: <T>(url: string, body: object) => axios.put<T>(url, body).then(responseBody),
   del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
@@ -115,7 +118,7 @@ const Account = {
 const Profiles = {
   get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
   uploadPhoto: (file: Blob) => {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append("File", file);
     return axios.post<Photo>("photos", formData, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -130,7 +133,9 @@ const Profiles = {
   listFollowings: (username: string, predicate: string) =>
     requests.get<Profile[]>(`/follow/${username}?predicate=${predicate}`),
   listActivities: (username: string, predicate: string) =>
-    requests.get<UserActivity[]>(`/profiles/${username}/activities?predicate=${predicate}`),
+    requests.get<UserActivity[]>(
+      `/profiles/${username}/activities?predicate=${predicate}`
+    ),
 };
 
 // gives us access to Activities and functions
