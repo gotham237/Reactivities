@@ -35,7 +35,7 @@ export default class CommentStore {
         //we are updating observables so we need to use runInAction
         runInAction(() => {
           comments.forEach((comment) => {
-            comment.createdAt = new Date(comment.createdAt + "Z");
+            comment.createdAt = new Date(comment.createdAt);
           });
           this.comments = comments;
         });

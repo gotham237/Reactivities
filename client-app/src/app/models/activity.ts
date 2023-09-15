@@ -51,10 +51,10 @@ export class ActivityFormValues {
   date: Date | null = null;
   city: string = "";
   venue: string = "";
-  hostUsername: string = "";
-  isCancelled: boolean = false;
-  isGoing: boolean = false;
-  isHost: boolean = false;
+  hostUsername?: string = "";
+  isCancelled?: boolean = false;
+  isGoing?: boolean = false;
+  isHost?: boolean = false;
   host?: Profile;
   attendees: Profile[] = [];
 

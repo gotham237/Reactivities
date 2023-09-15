@@ -45,7 +45,7 @@ export default observer(function RegisterFrom() {
           <MyTextInput placeholder="Password" name="password" type="password" />
           <ErrorMessage
             name="error"
-            render={() => <ValidationErrors errors={errors.error} />}
+            render={() => <ValidationErrors errors={errors.error as unknown as string[]} />}
           />
           <Button
             disabled={!isValid || !dirty || isSubmitting}
