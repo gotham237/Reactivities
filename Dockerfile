@@ -11,7 +11,7 @@ COPY "Domain/Domain.csproj" "Domain/Domain.csproj"
 COPY "Infrastructure/Infrastructure.csproj" "Infrastructure/Infrastructure.csproj"
 
 RUN dotnet restore "Reactivities.sln"
-
+#
 #copy everything else and build
 COPY . .
 WORKDIR /app
