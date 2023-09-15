@@ -12,7 +12,7 @@ primary_region = "waw"
 [env]
   ASPNETCORE_URLS="http://+:8080"
   Cloudinary__CloudName="dox7pzmyi"
-  Cloudinary_ApiKey="564172255586296"
+  Cloudinary__ApiKey="564172255586296"
 
 [http_service]
   internal_port = 8080
