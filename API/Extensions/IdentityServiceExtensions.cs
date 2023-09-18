@@ -32,9 +32,12 @@ namespace API.Extensions
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = key,
                         ValidateIssuer = false,
-                        ValidateAudience = false
+                        ValidateAudience = false,
+                        // for refreshing tokens
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
                     };
-                    //adding authorization top the signalR chat
+                    //adding authorization to the signalR chat
                     opt.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = context => 
