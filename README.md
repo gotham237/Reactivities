@@ -1,6 +1,8 @@
 # Reactivities
 Social media website created using C#, .NET, React(typescript), sqlite database was used for development and postgres for production.
 This project was done with mediator design pattern and CQRS. 
+# Preview
+![preview1](https://github.com/gotham237/Reactivities/assets/86183687/90935509-b01c-4771-88fa-b336ee6f121c)
 # Features:
 - login, register (JWT),
 - create, edit, attend activities,
